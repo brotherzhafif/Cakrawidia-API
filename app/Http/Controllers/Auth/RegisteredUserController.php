@@ -21,37 +21,37 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-        'password' => ['required', 'confirmed', Rules\Password::defaults()],
-    ]);
-
-    try {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        event(new Registered($user));
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        Auth::login($user);
+            event(new Registered($user));
 
-        // Generate JWT token after registration
-        $token = JWTAuth::fromUser($user);
+            Auth::login($user);
 
-        return response()->json([
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email
-            ],
-            'token' => $token
-        ], 201);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Registration failed'], 500);
+            // Generate JWT token after registration
+            $token = JWTAuth::fromUser($user);
+
+            return response()->json([
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email
+                ],
+                'token' => $token
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Registration failed'], 500);
+        }
     }
-}
 }

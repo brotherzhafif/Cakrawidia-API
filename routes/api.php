@@ -16,6 +16,9 @@ Route::get('answers/{id}', [AnswerController::class, 'show']);
 Route::get('likes', [LikeController::class, 'index']);
 Route::get('topics', [TopicController::class, 'index']);
 Route::get('topics/{id}', [TopicController::class, 'show']);
+Route::get('users', [TopicController::class, 'show']);
+Route::get('users/{id}', [UserController::class, 'show']);
+
 
 // Routes that require authentication - for POST, PUT, DELETE
 Route::middleware(['jwt.auth'])->group(function () {
@@ -38,5 +41,4 @@ Route::middleware(['jwt.auth'])->group(function () {
 });
 
 // Routes to view user profile - public access
-Route::get('users/{id}', [UserController::class, 'show']);
 
