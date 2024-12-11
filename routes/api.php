@@ -16,7 +16,7 @@ Route::get('answers/{id}', [AnswerController::class, 'show']);
 Route::get('likes', [LikeController::class, 'index']);
 Route::get('topics', [TopicController::class, 'index']);
 Route::get('topics/{id}', [TopicController::class, 'show']);
-Route::get('users', [TopicController::class, 'show']);
+Route::get('users', [UserController::class, 'index']);
 Route::get('users/{id}', [UserController::class, 'show']);
 
 
