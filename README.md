@@ -74,8 +74,11 @@ Berikut adalah langkah-langkah untuk menjalankan aplikasi **Cakrawidia API** di 
 
 ---
 
+## **Library yang Digunakan**  
+Proyek ini menggunakan library berikut untuk mendukung pengembangan:  
+- **Tymon JWT Auth**  
+- **Laravel Breeze**  
+
 ## **Dokumentasi Api**
-
-
 Lebih Lengkap bisa diakses di sini
 https://github.com/brotherzhafif/Cakrawidia_API/wiki/API-Documentation
