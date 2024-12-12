@@ -21,8 +21,19 @@ class User extends Authenticatable implements JWTSubject
         'email', 
         'password', 
         'role', 
-        'points'
+        'points',
+        'last_token'
     ];
+
+    public function updateToken($token)
+    {
+        // Hapus token lama
+        $this->tokens()->where('token', $this->last_token)->delete();
+        
+        // Simpan token baru
+        $this->last_token = $token;
+        $this->save();
+    }
 
     /**
      * The attributes that should be hidden for serialization.

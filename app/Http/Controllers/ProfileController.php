@@ -67,11 +67,12 @@ class ProfileController extends Controller
         }
 
         // Logout dan hapus akun
-        Auth::logout();
         $user->delete();
-
-        return response()->json([
+        
+        response()->json([
             'message' => 'Account deleted successfully'
         ]);
+
+        Auth::logout();
     }
 }
