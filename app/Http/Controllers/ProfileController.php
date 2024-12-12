@@ -2,52 +2,76 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {
-
     /**
-     * Update the user's profile information.
+     * Update the authenticated user's profile.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request)
     {
-        $request->user()->fill($request->validated());
+        $user = Auth::user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Validasi input
+        $request->validate([
+            'username' => 'sometimes|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'sometimes|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'sometimes|string|min:6|confirmed'
+        ]);
+
+        // Update username jika disediakan
+        if ($request->has('username')) {
+            $user->username = $request->username;
         }
 
-        $request->user()->save();
+        // Update email jika disediakan
+        if ($request->has('email')) {
+            $user->email = $request->email;
+            $user->email_verified_at = null; // Reset verifikasi email
+        }
 
-        return Redirect::route('profile.edit');
+        // Update password jika disediakan
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'Profile updated successfully',
+            'user' => $user
+        ]);
     }
 
     /**
-     * Delete the user's account.
+     * Delete the authenticated user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
+        $user = Auth::user();
+
+        // Validasi password
         $request->validate([
-            'password' => ['required', 'current_password'],
+            'password' => 'required'
         ]);
 
-        $user = $request->user();
+        // Periksa password
+        if (!Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'password' => ['Password yang Anda masukkan salah.']
+            ]);
+        }
 
+        // Logout dan hapus akun
         Auth::logout();
-
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return response()->json([
+            'message' => 'Account deleted successfully'
+        ]);
     }
 }

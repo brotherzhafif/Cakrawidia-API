@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\LikeController;
@@ -37,7 +38,12 @@ Route::middleware(['jwt.auth'])->group(function () {
     Route::put('topics/{id}', [TopicController::class, 'update']);
     Route::delete('topics/{id}', [TopicController::class, 'destroy']);
 
-    Route::middleware('jwt.auth')->get('/me', [AuthController::class, 'getAuthenticatedUser']);
+    // Rute untuk update dan delete akun (memerlukan autentikasi)
+    Route::middleware('jwt.auth')->group(function () {
+        Route::put('/me', [ProfileController::class, 'update']);
+        Route::get('/me', [AuthController::class, 'getAuthenticatedUser']);
+        Route::delete('/me', [ProfileController::class, 'destroy']);
+    });
 });
 
 // Routes to view user profile - public access
