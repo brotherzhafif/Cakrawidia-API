@@ -11,13 +11,13 @@ class AnswerController extends Controller
     // Get all answers
     public function index()
     {
-        return response()->json(Answer::with(['user'])->get());
+        return response()->json(Answer::get());
     }
 
     // Get a single answer
     public function show($id)
     {
-        $answer = Answer::with(['question', 'user'])->find($id);
+        $answer = Answer::find($id);
         if (!$answer) {
             return response()->json(['error' => 'Answer not found'], 404);
         }

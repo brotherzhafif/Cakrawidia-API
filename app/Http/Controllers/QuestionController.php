@@ -17,11 +17,11 @@ class QuestionController extends Controller
        
        return response()->json($questions);
     }
-    
+
     // Get a single question
     public function show($id)
     {
-        $question = Question::with(['user', 'topic', 'answers.user'])->find($id);
+        $question = Question::with(['answers.user'])->find($id);
         if (!$question) {
             return response()->json(['error' => 'Question not found'], 404);
         }
