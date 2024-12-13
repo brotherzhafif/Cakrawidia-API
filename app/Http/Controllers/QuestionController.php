@@ -10,15 +10,14 @@ class QuestionController extends Controller
     // Get all questions
     public function index(Request $request)
     {
-        $limit = $request->input('limit', 5);
-        $questions = Question::with(['user', 'topic'])
-            ->limit($limit)
-            ->latest() // Mengurutkan dari yang terbaru
-            ->get();
-        
-        return response()->json($questions);
+       $limit = $request->input('limit', 5);
+       $questions = Question::limit($limit)
+           ->latest() // Mengurutkan dari yang terbaru
+           ->get();
+       
+       return response()->json($questions);
     }
-
+    
     // Get a single question
     public function show($id)
     {
