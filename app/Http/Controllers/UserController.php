@@ -11,13 +11,10 @@ class UserController extends Controller
     // Get all users
     public function index(Request $request)
     {
-        $limit = $request->input('limit', 5); // Default 5 users
-        $users = User::with(['questions', 'answers']) // Load related questions and answers if needed
-            ->limit($limit)
-            ->latest() // Urutkan dari yang terbaru
-            ->get();
-        
-        return response()->json($users);
+       $limit = $request->input('limit', 5); // Default 5 users
+       $users = User::limit($limit)->get();
+       
+       return response()->json($users);
     }
 
     // Get a single user
