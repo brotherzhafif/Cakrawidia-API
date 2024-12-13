@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 class QuestionController extends Controller
 {
     // Get all questions
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Question::with(['user', 'topic'])->get());
+        $limit = $request->input('limit', 5);
+        $questions = Question::with(['user', 'topic'])
+            ->limit($limit)
+            ->latest() // Mengurutkan dari yang terbaru
+            ->get();
+        
+        return response()->json($questions);
     }
 
     // Get a single question
