@@ -30,7 +30,6 @@ class AnswerController extends Controller
         $validated = $request->validate([
             'question_id' => 'required|exists:questions,id',
             'content' => 'required',
-            'title' => 'required|max:255', 
         ]);
 
         // Gunakan user yang sedang login
@@ -52,7 +51,6 @@ class AnswerController extends Controller
 
         $validated = $request->validate([
             'content' => 'nullable',
-            'title' => 'nullable|max:255',
         ]);
 
         $answer->update($validated);
