@@ -10,12 +10,7 @@ class QuestionController extends Controller
     // Get all questions
     public function index(Request $request)
     {
-       $limit = $request->input('limit', 5);
-       $questions = Question::limit($limit)
-           ->latest() // Mengurutkan dari yang terbaru
-           ->get();
-       
-       return response()->json($questions);
+       return response()->json(Question::all(),200);
     }
 
     // Get a single question

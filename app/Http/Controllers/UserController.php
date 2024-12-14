@@ -11,10 +11,7 @@ class UserController extends Controller
     // Get all users
     public function index(Request $request)
     {
-       $limit = $request->input('limit', 5); // Default 5 users
-       $users = User::limit($limit)->get();
-       
-       return response()->json($users);
+       return response()->json(User::all(),200);
     }
 
     // Get a single user
