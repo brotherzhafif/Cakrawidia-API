@@ -17,31 +17,18 @@ return [
 
     'paths' => ['*'],
 
-    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE'],
+    'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => [
-    'Content-Type', 
-    'Authorization', 
-    'X-Requested-With', 
-    'Accept', 
-    'Origin'
-    ],
+    'allowed_headers' => ['*'],
 
-    'exposed_headers' => [
-        'Cache-Control', 
-        'Content-Language', 
-        'Content-Type', 
-        'Expires', 
-        'Last-Modified', 
-        'Pragma'
-    ],
+    'exposed_headers' => false,
 
-    'max_age' => 0,
+    'max_age' => false,
 
-    'supports_credentials' => true,
+    'supports_credentials' => false,
 
 ];
