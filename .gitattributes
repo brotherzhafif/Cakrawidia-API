@@ -1,15 +1,10 @@
 * text=auto eol=lf
 
-*.blade.php linguist-detectable=false
-*.css linguist-detectable=false
-*.html linguist-detectable=false
-*.md diff=markdown
-*.php linguist-detectable=false
-*.js linguist-detectable=false
-
-* linguist-detectable=false
-/app/* linguist-detectable=true
-/routes/* linguist-detectable=true
+*.blade.php diff=php linguist-detectable=true
+*.php diff=php linguist-detectable=true
+*.css export-ignore
+*.html export-ignore
+*.md export-ignore
 
 /.github export-ignore
 CHANGELOG.md export-ignore
